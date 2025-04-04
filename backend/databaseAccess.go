@@ -2,12 +2,11 @@ package backend
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"fmt"
 	"log"
+
+	_ "github.com/mattn/go-sqlite3"
 )
-
-
 
 func SetUpDB() {
 	db, err := sql.Open("sqlite3", "file:./KITSCDrafterDB.db")
@@ -29,13 +28,15 @@ func SetUpDB() {
 
 	//setting up Database scheme
 
-	
 }
 
 func createTables(db *sql.DB) {
-	_, err = db.Exec(	`CREATE TABLE IF NOT EXISTS test (
+	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS test (
 		id INT PRIMARY KEY,
 		name VARCHAR(100)
 	);`)
-}
 
+	if err != nil {
+		log.Fatal(err)
+	}
+}
