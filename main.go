@@ -8,8 +8,7 @@ import (
 
 func main() {
 	fmt.Println("Starting the application...")
-	
-	backend.SetUpDB()
 
+	backend.SetUpDB()
 
 }

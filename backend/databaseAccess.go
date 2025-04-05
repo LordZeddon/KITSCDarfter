@@ -8,8 +8,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var db *sql.DB
-
 func SetUpDB() {
 	db, err := sql.Open("sqlite3", "file:./KITSCDrafterDB.db")
 	if err != nil {
@@ -26,10 +24,10 @@ func SetUpDB() {
 	fmt.Println("Connected to the database successfully!")
 
 	// Set up the database schema
-	createTables()
+	createTables(db)
 }
 
-func createTables() {
+func createTables(db *sql.DB) {
 
 	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS Players (
     bTag VARCHAR(50) ,
@@ -108,12 +106,10 @@ func createTables() {
 		fmt.Println("Error creating PlayerAssignments table:", err)
 	}
 
-	//Unhappy with this, boosterID is functionally dependant on bTag
-
 	_, err = db.Exec(`CREATE TABLE if NOT EXISTS Boosters (
     boosterID INT,
     bTag VARCHAR(50),
-    PRIMARY KEY (boosterID, bTag),
+    PRIMARY KEY (bTag),
     FOREIGN KEY (bTag) REFERENCES Players(bTag)
 	);`)
 
